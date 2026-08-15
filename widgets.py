@@ -7,13 +7,16 @@ import sys,os
 
 class TimeStamp(ttk.Frame):
    def __init__(self, parwn, label_text, pos_x, pos_y, datetime_value, *args, **kwargs): 
+
         self.name = kwargs.pop("name", 'name')
         super().__init__(parwn, *args, **kwargs)
         self.lab=ttk.Label(parwn,text=label_text)
         self.lab.place(x=pos_x,y=pos_y)
         self.reg = self.winfo_toplevel().register(self.validate_date)        
-        self.dd=ttk.Entry(parwn,width=15,textvariable=datetime_value,validate="key", validatecommand=(self.reg, "%d", "%i", "%S", "%P"))
+        self.dd=ttk.Entry(parwn,width=16,textvariable=datetime_value,validate="key", validatecommand=(self.reg, "%d", "%i", "%S", "%P"))
         self.dd.place(x=pos_x,y=pos_y+20)
+
+
      
    def cget(self,param):
        '''Get option from widget'''
@@ -38,7 +41,13 @@ class TimeStamp(ttk.Frame):
            if inserted_text in "012":
                return True
            return False
-       if idx == 13:
+       if idx ==12:
+           if future_text[11] == '2' and inserted_text in "0123":
+               return True
+           if (future_text[11] == '1' or future_text[11] == '0') and inserted_text.isdigit():
+               return True
+           return False
+       if idx ==13:
            if inserted_text == ':':
                return True
            return False
@@ -58,7 +67,17 @@ class TimeStamp(ttk.Frame):
            if int(inserted_text) == 0 or int(inserted_text) == 1 or int(inserted_text) == 2 or int(inserted_text) == 3 :
                return True
            return False            
+       elif idx ==14:
+           if inserted_text in "012345":
+              return True
+           return False
        else:
            if inserted_text.isdigit():
                return True
            return False
+class TableView:
+    def __init__(self,parwn):
+       pass
+class ImageGallery:
+    def __init__(self):
+       pass
