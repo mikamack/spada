@@ -1,0 +1,36 @@
+---
+type: html
+content:
+   -
+      type: head
+      data: 'Sample header for report'
+   -
+      type: body
+      content:
+         -
+            param: 'Checkbox 0 set to:'
+            data: id_chkbtn0
+         -
+            param: 'Text 1:'
+            data: id_text1
+         -
+            param: 'Entry2:'
+            data: id_entry2
+         -
+            param: 'Listbox1:'
+            data: id_listbox1
+         -
+            param: "Scale 1:"
+            data: id_scale1
+         -
+            param: "Spinbox 12:"
+            data: id_spinbox2
+         -
+            param: "Combobox 1:"
+            data: id_cmbx1
+         -
+            param: "Radiobutton:"
+            data: id_rdb1
+   -
+      type: footer
+      data: 'footer text'

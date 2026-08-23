@@ -1,0 +1,167 @@
+---
+type: Window
+pos_x: 1900
+pos_y: 1280
+label: "MainView"
+id: "id_MainView"
+content:
+  -
+    type: "Checkbutton"
+    id: "id_chkbtn0"
+    label: "Checkbutton 0"
+    pos_x: 100
+    pos_y: 10
+    height: 15
+    width: 50
+  -
+    type: "Scrollbar"
+    id: "id_scrollbar0"
+    label: "Scrollbar 0"
+    from_: 0.0
+    to: 1.0
+    pos_x: 195
+    pos_y: 280
+    width: 10
+    orient: "horizontal"
+    increment: 0.01
+  -
+    type: "Button"
+    id: "id_button0"
+    label: "Label 0"
+    pos_x: 10
+    pos_y: 15
+    height: 20
+    width: 100
+  -
+    type: "Tab"
+    id: "id_tab1"
+    label: "Tab 1"
+    pos_x: 45
+    pos_y: 50
+    content:
+     -
+      type: "Text"
+      label: "Multitext 12"
+      id: "id_text1"
+      pos_x: 180
+      pos_y: 180
+      height: 10
+      width: 10
+     -
+      type: "Entry"
+      id: "id_entry2"
+      label: "Entry 2"
+      pos_x: 21
+      pos_y: 3
+      height: 20
+      width: 100
+  -
+    type: "Tab"
+    id: "id_tab2"
+    label: "Tab 2"
+    pos_x: 130
+    pos_y: 50
+    content:
+     -
+      type: "LabelFrame"
+      id: "id_labelfr1"
+      label: "LabelFrame1"
+      pos_x: 2
+      pos_y: 2
+      height: 300
+      width: 150
+     -
+      type: "Listbox"
+      id: "id_listbox1"
+      label: "ListBox1"
+      values: [1, 2, 3]
+      pos_x: 305
+      pos_y: 60
+      height: 10
+      width: 10
+     -
+      type: "Label"
+      id: "id_label1"
+      label: "Label1"
+      pos_x: 230
+      pos_y: 95
+     -
+      type: "Scale"
+      id: "id_scale1"
+      label: "Scale 1"
+      orient: "horizontal"
+      length: 130
+      height: 100
+      width: 300
+      variable: 0.1
+      from: 0.0
+      to: 1.0
+      resolution: 0.1
+      pos_x: 170
+      pos_y: 220
+     -
+      type: "Scrollbar"
+      id: "id_scrollbar1"
+      label: "Scrollbar 1"
+      from_: 0.0
+      to: 1.0
+      pos_x: 195
+      pos_y: 280
+      width: 10
+      orient: "horizontal"
+      increment: 0.01
+     -
+      type: "Spinbox"
+      label: "Spinbox 12"
+      id: "id_spinbox2"
+      pos_x: 180
+      pos_y: 280
+      width: 15
+      from: 0
+      to: 5
+      increment: 0.5
+     -
+      type: "Button"
+      id: "id_label3"
+      label: "Label 3"
+      pos_x: 30
+      pos_y: 25
+      height: 20
+      width: 100
+  -
+    type: "Tab"
+    id: "id_tab3"
+    label: "Tab 3"
+    pos_x: 130
+    pos_y: 50
+    content:
+    -
+      type: "Combobox"
+      id: "id_cmbx1"
+      label: "Combobox 1"
+      pos_x: 100
+      pos_y: 180
+      values: ["one", "two", "three"]
+      height: 50
+      width: 10
+    -
+      type: "Radiobutton"
+      id: "id_rdb1"
+      label: "Radiobutton 1"
+      pos_x: 100
+      pos_y: 100
+      value: 1
+    -
+      type: "Radiobutton"
+      id: "id_rdb1"
+      label: "Radiobutton 2"
+      pos_x: 100
+      pos_y: 120
+      value: 2
+    -
+      type: "Radiobutton"
+      id: "id_rdb1"
+      label: "Radiobutton 3"
+      pos_x: 100
+      pos_y: 140
+      value: 3
