@@ -16,7 +16,7 @@ class UIHandler:
     v_press_login=0
     v_press_exit=0
     '''Resultset table's width in columns'''
-    TABLE_WIDTH_LIMIT=8
+    TABLE_WIDTH_LIMIT=10
     
     '''Event handlers for buttons'''
     def press_register(self,login,passwd,passwd_c):
@@ -83,8 +83,7 @@ class UIHandler:
                     result_dictionary.update({str(widget.cget("listvariable")):tmp_result})
                 elif ('spinbox' in widget.widgetName):
                     result_dictionary.update({str(widget.cget("textvariable")):control_var.get()})
-                elif ('treeview' in widget.widgetName):
-                    pass
+
                 elif ('combobox' in widget.widgetName):
                     result_dictionary.update({str(widget.cget("textvariable")):control_var.get()})
                 elif ('radiobutton' in widget.widgetName):
@@ -147,7 +146,14 @@ class UIHandler:
                 query_parts[0][2]=query_parts[0][2]+"\n"
                 res = dbc.search_record("_data",query_parts)
             if len(res) > 0:
-                heading_list = ['','id']+list(res[0].keys())
+                row_index=0
+                heading_list = ['','id']
+                while row_index < len(res):
+            
+                    for heading_element in res[row_index].keys():
+                        if heading_element not in heading_list:
+                            heading_list.append(heading_element)
+                    row_index += 1    
             else:
                 messagebox.showinfo('Info', 'Requested data not found')
                 #clear_up()
@@ -155,10 +161,17 @@ class UIHandler:
             
             content_list=[]
             for j in res:
-                row = [str(j.doc_id)] + list(j.values())
-                content_list.append(row)
-            
-                
+                content_list.clear()
+                content_list.append(str(j.doc_id))
+
+                #for key_value in j.keys():
+                for key_value in heading_list:
+                    if key_value == '' or key_value == 'id':
+                        continue
+                    content_list.append(j.get(key_value, ''))
+
+                table_list.insert("",tk.END, values=content_list, open = False)
+              
             l=0
             for head_title in heading_list:
                 table_list.heading('#'+str(l), text=head_title)
@@ -167,8 +180,7 @@ class UIHandler:
                     break
                 l=l+1
          
-            for table_row in content_list:   
-                table_list.insert("",tk.END, values=table_row, open = False)
+
  
         clear_up()
         return 0
@@ -211,8 +223,7 @@ class UIHandler:
                     result_dictionary.update({str(widget.cget("listvariable")):tmp_result})
             elif (widget.widgetName=='spinbox'):
                 result_dictionary.update({str(widget.cget("textvariable")):control_var.get()})
-            elif (widget.widgetName=='ttk:treeview'):
-                pass    
+
             elif (widget.widgetName=='ttk::combobox'):
                 result_dictionary.update({str(widget.cget("textvariable")):control_var.get()})
             elif (widget.widgetName=='radiobutton'):
@@ -240,7 +251,7 @@ class UIHandler:
         table_list.delete(selected_items)
         return dbc.remove_record("_data",record['values'][0])
     
-    def print_button(self,doc_id,row_index):
+    def print_button(self,doc_id):
         '''Makes a html report with opening it in a browser'''
         
         ts = time.time()
