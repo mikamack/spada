@@ -53,7 +53,7 @@ class UIRender:
        pwd_textc= ttk.Entry(dialog, textvariable=pwd_c)
        pwd_textc.place(x=150,y=130)
        param=dialog
-       login_btn=ttk.Button(dialog, text='Regist4r', width=25, command=lambda: self.blurRegisterUI(h,login_text,pwd_text,pwd_textc,param))
+       login_btn=ttk.Button(dialog, text='Regist4r', width=25, command=lambda: self.blur_register_ui(h,login_text,pwd_text,pwd_textc,param))
        login_btn.place(x=90,y=160)
        exit_btn=ttk.Button(dialog,text='Exit',width=25, command=lambda: h.press_exit(param))
        exit_btn.place(x=90,y=210)
@@ -74,8 +74,8 @@ class UIRender:
        pwd_label.place(x=15,y=90)
        pwd_text= ttk.Entry(dialog, textvariable=pwd, show='*')
        pwd_text.place(x=100,y=90)
-       lgn=login_text.get()
-       pwd=pwd_text.get()
+       
+       
        param=dialog
        
        login_btn=ttk.Button(dialog, text='Login', width=25, command=lambda: self.blur_login_ui(h,login_text,pwd_text,param))
@@ -97,7 +97,7 @@ class UIRender:
        '''Head windows dialog'''
        h = UIHandler()
        dialog.title(header)
-       dialog.geometry("700x520")
+       dialog.geometry("750x520")
        label=tk.Label(dialog, text="Main")
        label.place(x=100,y=160)
        button_add=tk.Button(dialog,text='Add',command = lambda: self.render_add_ui())
@@ -108,7 +108,7 @@ class UIRender:
        button_edit.place(x=300,y=480)
        button_delete=tk.Button(dialog, text='Delete', command = lambda: h.delete_button(self.table_list))
        button_delete.place(x=360,y=480)
-       button_delete=tk.Button(dialog, text='Send to print', command = lambda: self.render_print_data(dialog))
+       button_delete=tk.Button(dialog, text='Send to print', command = lambda: self.render_print_data())
        button_delete.place(x=440,y=480)
 
        table_list_columns=("Id","","Field","Field 2","Field3","Field4","Field5","Field6","Field7","Field8")
@@ -122,7 +122,7 @@ class UIRender:
        hs_table_list = ttk.Scrollbar(self.table_list, orient = 'horizontal', command=self.table_list.xview)
        vs_table_list.place(x=743, y=0, height=220)
        hs_table_list.place(x=0, y=220, width=756)
-       #hs_table_list.grid(row=0,col=0,minwidth=150,stretch=False)
+       
        self.table_list.configure(yscrollcommand=vs_table_list.set)
        self.table_list.configure(xscrollcommand=hs_table_list.set)
 
@@ -137,7 +137,7 @@ class UIRender:
     def blur_register_ui(self, handler, login, pwd, pwd_c, dialog):
        '''Register UI dialog hiding'''
        list_widgets = dialog.winfo_children()
-       if handler.press_register(login, pwd, pwd_c, dialog) == 1:
+       if handler.press_register(login, pwd, pwd_c) == 1:
           for item in list_widgets:
              item.destroy()
           self.render_main_ui('BILC', dialog)
@@ -148,16 +148,18 @@ class UIRender:
 
        add_dialog=tk.Toplevel()
        add_dialog.title('Add data')
-       add_dialog.geometry("640x480")
+       
        try:
          stream = open('yaml/gui.yaml', 'r')
          res = yaml.safe_load(stream)
        except OSError:
          messagebox.showerror('Error','Something wrong with file yaml')
        da = processors.UIDataAdd()
+
+       add_dialog.geometry(str(res['width'])+"x"+str(res['height']))
        elements_list=da.render_gui(res['content'],add_dialog)
        add_button=ttk.Button(add_dialog, text="Add",command = lambda: h.add_button(add_dialog,elements_list))
-       add_button.place(x=550,y=440)
+       add_button.place(x=res['width']/4,y=600)
     
     def render_search_ui(self, dialog):
        '''Renders a search dialog'''
@@ -280,21 +282,24 @@ class UIRender:
       if (self.table_list.selection() == ()):
          messagebox.showerror('Error','None selected. Make a search first')
          return 0
-      db_data = {}
-      h = UIHandler()
-      dict_data=h.edit_button(self.table_list)
 
       edit_dialog=tk.Toplevel()
       edit_dialog.title("Edit data")
-      edit_dialog.geometry("640x480")
+      
+      try:
+         stream = open('yaml/gui.yaml', 'r')
+         res = yaml.safe_load(stream)
+      except OSError:
+         messagebox.showerror('Error','Something wrong with file yaml')
+      edit_dialog.geometry(str(res['width'])+"x"+str(res['height']))
       edit_button=ttk.Button(edit_dialog, text="Update",command = lambda: h.update_button(edit_dialog,item_list, dict_data))
-      edit_button.place(x=550,y=440)
+      edit_button.place(x=res['width']/2,y=res['height']-650)
        
       h = UIHandler()
       dict_data=h.edit_button(self.table_list)
 
       #Data edit dialog
-      de = add.UIDataAdd()
+      de = processors.UIDataAdd()
       try:
          stream = open('yaml/gui.yaml', 'r')
          res = yaml.safe_load(stream)
@@ -310,8 +315,16 @@ class UIRender:
          elif ('listbox' in list(item.keys())[0].widgetName):
             item_tuple=list(item.keys())[0].get(0,"end")
             for current in dict_data[name_var]:
-               index_to_select=item_tuple.index(current)
+               try:
+                  index_to_select=item_tuple.index(current)
+               except ValueError:
+                  index_to_select=0
+                  continue
                list(item.keys())[0].selection_set(index_to_select)
+         elif('tableview' in list(item.keys())[0]._name):
+            
+            list(item.values())[0].set(dict_data.get(name_var))
+
          elif (list(item.values())[0] != 0 and dict_data.get(name_var) != None):
             list(item.values())[0].set(dict_data.get(name_var))
          elif (list(item.values())[0] == 0 and dict_data.get(name_var) != None):
@@ -320,22 +333,20 @@ class UIRender:
          else:
             continue    
 
-    def render_print_data(self, dialog):
+    def render_print_data(self):
       if (self.table_list.selection() == ()):
          messagebox.showerror('Error','None selected. Make a search first')
          return 0
       
-      label_dict={} # dictionary for label:id pairs from yaml
-      index=0
-      
+            
       try:
          stream = open('yaml/gui.yaml', 'r')
-         res = yaml.safe_load(stream)
+         yaml.safe_load(stream)
       except OSError:
          messagebox.showerror('Error','Something wrong with file yaml')
-      label_dict=self.prepare_list(res['content'])
+      
       row_index=self.table_list.selection()
       
       doc_id = self.table_list.item(row_index)['values'][0]
       h = UIHandler()
-      h.print_button(doc_id,self.value_items)        
+      h.print_button(doc_id)        
