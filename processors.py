@@ -3,7 +3,7 @@ import shutil
 
 import sys,os
 sys.path.append(os.getcwd())
-from widgets import TimeStamp
+from widgets import TimeStamp, TableView
 
 import tkinter as tk
 from tkinter import ttk
@@ -13,10 +13,10 @@ class UIDataAdd:
    var=0
   
    
-   def create_notebook(self,pos_x,pos_y,parwn):
+   def create_notebook(self,pos_x,pos_y,width,height,parwn):
       '''Create tabs control (Notebook) and place it to dialog/tab'''
       new_tabc = ttk.Notebook(parwn)
-      new_tabc.place(x=pos_x, y=pos_y, height=600, width=500)
+      new_tabc.place(x=pos_x, y=pos_y, height=height, width=width)
       
       return new_tabc
    
@@ -41,7 +41,11 @@ class UIDataAdd:
             entry= ttk.Entry(tabc, textvariable=val)
             entry.place(x=item['pos_x'],y=item['pos_y'])
             return {entry:val}
-         
+         case('TableView'):
+            #sample_data=[[],[]]
+            val=tk.StringVar(value=str([]), name=item['id'])
+            tv=TableView(tabc,parameter=item['label'],textvariable=val,width=item['width'], height=item['height'],pos_x=item['pos_x'],pos_y=item['pos_y'])
+            return {tv:val}
          case ('Button'):
             btn = ttk.Button(tabc, text=item['label'])
             btn.place(x=item['pos_x'],y=item['pos_y'])
@@ -119,8 +123,8 @@ class UIDataAdd:
       for items in range(0, len(src)):
       
         if (src[items]['type'] == 'Tab'):
-           if (src[items-1]['type'] != 'Tab'):
-              target=self.create_notebook(src[items]['pos_x'],src[items]['pos_y'],target)
+           if (src[items-1]['type'] != 'Tab' or items == 0):
+              target=self.create_notebook(src[items]['pos_x'],src[items]['pos_y'],src[items]['width'],src[items]['height'],target)
            tmp=self.add_tab(target,src[items]['label'])
            self.render_gui(src[items]['content'],tmp)
         else:

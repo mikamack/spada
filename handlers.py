@@ -70,6 +70,10 @@ class UIHandler:
                 elif ('timestamp' in widget._w):
                      control_var.get()
                      result_dictionary.update({control_var._name:str(widget.cget("date_value"))})
+                elif ('tableview' in widget._w):
+                     control_var.get()
+                     result_dictionary.update({control_var._name:str(control_var.get())})
+
                 elif ('scale' in widget.widgetName):
                      #result_dictionary.update({str(widget.cget("name")):str(widget.cget("variable"))}) 
                      result_dictionary.update({str(widget.cget("variable")):control_var.get()}) 
@@ -212,7 +216,9 @@ class UIHandler:
             elif (widget.widgetName=='scale'):
                 result_dictionary.update({str(widget.cget("variable")):control_var.get()}) 
             elif (widget._name=='!timestamp'):
-                result_dictionary.update({control_var._name:control_var.get()}) 
+                result_dictionary.update({control_var._name:control_var.get()})
+            elif (widget._name=='!tableview'):
+                result_dictionary.update({control_var._name:control_var.get()})     
             elif (widget.widgetName=='checkbutton'):
                 result_dictionary.update({str(widget.cget("variable")):control_var.get()})            
             elif (widget.widgetName=='listbox'):

@@ -1,6 +1,9 @@
-
+import ast
+import json
 import tkinter as tk
+from tkinter import messagebox
 from datetime import datetime
+from tksheet import Sheet
 from tkinter import dialog
 from tkinter import ttk
 import sys,os
@@ -75,9 +78,81 @@ class TimeStamp(ttk.Frame):
            if inserted_text.isdigit():
                return True
            return False
-class TableView:
-    def __init__(self,parwn):
-       pass
-class ImageGallery:
-    def __init__(self):
-       pass
+class TableView(tk.Frame):
+    def __init__(self,parwn,parameter,width,height,pos_x,pos_y,textvariable, **kwargs):
+       tk.Frame.__init__(self,parwn)
+    #   if textvariable is not None:
+    #       if not isinstance(textvariable, tk.StringVar):
+    #          raise TypeError("textvariable must be a ListVar object")
+    #       self.textvariable=textvariable
+    #   else:
+    #        self.textvariable = tk.StringVar(self)
+
+       self.textvariable=textvariable
+       self.param_var=tk.StringVar(value='')
+       self._updating = False
+
+       self.lg = ttk.LabelFrame(parwn,text=parameter,height=height+50,width=width+50)
+       self.lg.place(x=pos_x-25,y=pos_y-15)
+
+       self.tv = ttk.Treeview(parwn,columns=["DateTime",str(parameter)],show="headings",height=int(height/22))
+       self.tv.heading("DateTime", text="Datetime")
+       self.tv.heading(str(parameter), text=parameter)
+       self.tv.column("DateTime",width=int(width*0.55),anchor="w")
+       self.tv.column(str(parameter), width=int(width*0.35),anchor="w")
+       self.tv.place(x=pos_x+10,y=pos_y+1)
+       self.scrollbar = ttk.Scrollbar(parwn, orient="vertical", command=self.tv.yview)
+       self.scrollbar.place(x=pos_x+width-20,y=pos_y+1,height=height)
+       self.tv.configure(yscrollcommand=self.scrollbar.set)
+
+       self.btn_add = ttk.Button(parwn, text="+", width=3, command = lambda: self._add_button())
+       self.btn_add.place(x=pos_x+155,y=pos_y+height+5)
+       self.btn_del = ttk.Button(parwn, text="-", width=3, command = lambda: self._del_button())
+       self.btn_del.place(x=pos_x+50,y=pos_y+height+5)
+       self.param = ttk.Entry(parwn,width=12,textvariable=self.param_var)
+       self.param.place(x=pos_x+195,y=pos_y+height+5)
+
+       self.textvariable.trace_add("write", lambda *args: self._update_widget(self.textvariable.get()))
+       self._update_widget(self.textvariable.get())
+
+    def _add_button(self):
+       '''Handler for + button'''
+       if self.param_var.get() == '':
+           messagebox.showerror('Error', "Add parameter to include to TimeSeries")
+           return
+       self.tv.insert("",index="end",values=[str(datetime.now().strftime("%Y-%m-%d %H:%M:%S")),self.param_var.get()])
+       self.param_var.set('')
+       self._update_data()
+
+    def _del_button(self):
+        '''Handler for - button'''
+        row_index_list=self.tv.get_children()
+        self.tv.delete(row_index_list[-1])
+        self._update_data()
+
+    def _update_data(self):
+        '''for control var update'''
+        self._updating = True
+
+        
+        row_index_list=self.tv.get_children()
+        result_data=[]
+        for row_index in row_index_list:
+            row_values =self.tv.item(row_index, "values")
+            result_data.append(list(row_values))
+
+        self.textvariable.set(str(result_data))
+        self._updating = False
+
+        return result_data
+
+    def _update_widget(self,table_data):
+        '''for widget update'''
+        if self._updating:
+            return
+        for row_id in self.tv.get_children():
+            self.tv.delete(row_id)
+       
+        for row in ast.literal_eval(table_data):
+            self.tv.insert("",index="end",values=row)
+
