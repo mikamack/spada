@@ -17,8 +17,12 @@ SPADA helps automate, streamline, and visualize info within educational, researc
 To minimize the coding burden, SPADA requires no actual algorithmic or object-oriented programming. Instead, it provides a flexible environment focused on user interface and database design.
 
 > [!TIP]
-> <small>💡 **Want to start immediately?** Jump straight to our [Quickstart](#-quickstart) section. It contains a simplified guide to YAML syntax.</small>
+> <small>💡 **Want to start now?** Jump straight to our [Quickstart](#-quickstart) section. It contains a simplified guide to YAML syntax.</small>
 
+---
+##  Usecases
+* **🔑 As low-code development tool for CRUD appliactions. You just compose a YAML file with a code, which projects to your branch data want to handle. The further steps (GUI & backend db schema generating) system will make for you. You can develop ERP,CRM, R&D soft (academic, scientific investigation), field information grabbing software etc.
+* **🔑 As a component of Platform Engineering. Using an export of data from database to a file, you can "generate" a configuration for dedicated service whenas GUI could be used as unified point of configs making. It helps to coordinate your servicing infrastructure with many config files.
 ---
 
 ## 👥 Target Audience
@@ -26,6 +30,7 @@ To minimize the coding burden, SPADA requires no actual algorithmic or object-or
 * **🎓 Students & Postgraduates** — for fast academic prototyping and data research.
 * **🔬 Domain Researchers** — to analyze fields of study without diving into complex coding.
 * **💼 Professionals & Startups** — for quick MVP creation and internal data aggregation tools.
+* **💻 IT servicing and management stuff to simplify and consolidate the configuring process.
 
 ---
 
