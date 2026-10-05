@@ -297,3 +297,34 @@ python main.py
   <br><b>label:</b> TimeStamp's name, which is displayed within it.
   <br><b>id:</b> Identifier. Just a unique alphabetical string to ensign this widget and to control it.
 </details>
+
+<details>
+  <summary><b>🔹 "TableView"</b></summary>
+  <br>
+  TableView - double-columned table with timeseried value.
+  Consists of:
+  <br>
+  <br><b>type:</b> TableView
+  <br><b>pos_x:</b> TableView's left-upper corner's coordinate by x-axis of your monitor, in dots
+  <br><b>pos_y:</b> TableView's left-upper corner's coordinate by y-axis of your monitor, in dots
+  <br><b>label:</b> TableeView's name, which is displayed within it.
+  <br><b>id:</b> Identifier. Just a unique alphabetical string to ensign this widget and to control it.
+  <br><b>width:</b> width of TableView.
+  <br><b>heigt:</b> height of TableView.
+</details>
+
+<details>
+  <summary><b>🔹 "ImageGallery"</b></summary>
+  <br>
+  ImageGallery - primitive image listing widget to render series of images or photos. Widget itself is
+  obscured under button labeled with ">>>>". Big images are scrollable.
+  Consists of:
+  <br>
+  <br><b>type:</b> ImageGallery
+  <br><b>pos_x:</b> ImageGallery's left-upper corner's coordinate by x-axis of your monitor, in dots
+  <br><b>pos_y:</b> ImageGallery's left-upper corner's coordinate by y-axis of your monitor, in dots
+  <br><b>label:</b> ImageGallery's name, which is displayed within it.
+  <br><b>id:</b> Identifier. Just a unique alphabetical string to ensign this widget and to control it.
+  <br><b>width:</b> width of ImageGallery.
+  <br><b>heigt:</b> height of ImageGallery.
+</details>

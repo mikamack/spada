@@ -122,7 +122,6 @@ class UIRender:
        hs_table_list = ttk.Scrollbar(self.table_list, orient = 'horizontal', command=self.table_list.xview)
        vs_table_list.place(x=743, y=0, height=220)
        hs_table_list.place(x=0, y=220, width=756)
-       
        self.table_list.configure(yscrollcommand=vs_table_list.set)
        self.table_list.configure(xscrollcommand=hs_table_list.set)
 
@@ -322,9 +321,9 @@ class UIRender:
                   continue
                list(item.keys())[0].selection_set(index_to_select)
          elif('tableview' in list(item.keys())[0]._name):
-            
             list(item.values())[0].set(dict_data.get(name_var))
-
+         elif('imagegallery' in list(item.keys())[0]._name):
+            list(item.values())[0].set(dict_data.get(name_var))
          elif (list(item.values())[0] != 0 and dict_data.get(name_var) != None):
             list(item.values())[0].set(dict_data.get(name_var))
          elif (list(item.values())[0] == 0 and dict_data.get(name_var) != None):

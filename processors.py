@@ -3,7 +3,7 @@ import shutil
 
 import sys,os
 sys.path.append(os.getcwd())
-from widgets import TimeStamp, TableView
+from widgets import TimeStamp, TableView, ImageGallery
 
 import tkinter as tk
 from tkinter import ttk
@@ -42,10 +42,13 @@ class UIDataAdd:
             entry.place(x=item['pos_x'],y=item['pos_y'])
             return {entry:val}
          case('TableView'):
-            #sample_data=[[],[]]
             val=tk.StringVar(value=str([]), name=item['id'])
             tv=TableView(tabc,parameter=item['label'],textvariable=val,width=item['width'], height=item['height'],pos_x=item['pos_x'],pos_y=item['pos_y'])
             return {tv:val}
+         case ('ImageGallery'):
+            val = tk.StringVar(value=str([]), name=item['id'])
+            ig=ImageGallery(tabc,parameter=item['id'],textvariable=val,width=item['width'],height=item['height'],pos_x=item['pos_x'],pos_y=item['pos_y'])
+            return {ig:val}
          case ('Button'):
             btn = ttk.Button(tabc, text=item['label'])
             btn.place(x=item['pos_x'],y=item['pos_y'])
